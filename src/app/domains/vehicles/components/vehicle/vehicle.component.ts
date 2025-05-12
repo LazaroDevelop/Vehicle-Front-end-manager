@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Vehicle } from '../../../shared/models/vehicle.model';
+import { CommonModule } from '@angular/common';
+import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
-  selector: 'app-vehicle',
-  imports: [],
+  selector: 'vehicle-ui',
+  imports: [CommonModule, RouterLinkWithHref],
   templateUrl: './vehicle.component.html',
-  styleUrl: './vehicle.component.css'
+  standalone: true,
+  styleUrl: './vehicle.component.css',
 })
 export class VehicleComponent {
-
+  @Input({ required: true }) vehicle!: Vehicle;
 }
