@@ -6,4 +6,11 @@ export const routes: Routes = [
     path: '',
     component: ListComponent,
   },
+  {
+    path: 'vehicle/:id',
+    loadComponent: () =>
+      import(
+        './domains/vehicles/pages/vehicle-detail/vehicle-detail.component'
+      ),
+  },
 ];
