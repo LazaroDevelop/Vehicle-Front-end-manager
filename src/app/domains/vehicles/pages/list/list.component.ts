@@ -41,4 +41,16 @@ export class ListComponent {
       },
     });
   }
+
+  onDropVehicle(id: number) {
+    this.vehicleSerivce.dropVehicle(id).subscribe({
+      next: () => {
+        window.alert('Vehicle was deleted successfully');
+        this.getVehicles();
+      },
+      error: (error) => {
+        window.alert(`Vehicle elimination failed => ${error.error.message}`);
+      },
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Vehicle } from '../../../shared/models/vehicle.model';
 import { CommonModule } from '@angular/common';
 import { RouterLinkWithHref } from '@angular/router';
@@ -12,4 +12,9 @@ import { RouterLinkWithHref } from '@angular/router';
 })
 export class VehicleComponent {
   @Input({ required: true }) vehicle!: Vehicle;
+  @Output() drop = new EventEmitter<number>();
+
+  dropVehicle(id: number) {
+    this.drop.emit(id);
+  }
 }
