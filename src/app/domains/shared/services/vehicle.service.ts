@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { VehicleRequest } from '../models/vehicle.model';
+import { Page, VehicleRequest } from '../models/vehicle.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +21,33 @@ export class VehicleService {
       return this.http.get<any>(url.toString());
     } else {
       return this.http.get<any>(`${this.apiUrl}/all`);
+    }
+  }
+
+  getVehiclesPaginated(category: string, page: Page, sort?: string[]) {
+    if (category) {
+      const url = new URL(`${this.apiUrl}/all/by-vehicles/paginated`);
+
+      url.searchParams.append('type', category);
+      url.searchParams.append('page', page.page.toString());
+      url.searchParams.append('size', page.size.toString());
+
+      if (sort) {
+        url.searchParams.append('sort', sort.toString());
+      }
+
+      return this.http.get<any>(url.toString());
+    } else {
+      const url = new URL(`${this.apiUrl}/all/paginated`);
+
+      url.searchParams.append('page', page.page.toString());
+      url.searchParams.append('size', page.size.toString());
+
+      if (sort) {
+        url.searchParams.append('sort', sort.toString());
+      }
+
+      return this.http.get<any>(url.toString());
     }
   }
 
