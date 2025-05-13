@@ -24,6 +24,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./domains/vehicles/pages/register/register.component'),
       },
+      {
+        path: 'report',
+        loadComponent: () =>
+          import('./domains/vehicles/pages/report/report.component'),
+      },
     ],
   },
   {

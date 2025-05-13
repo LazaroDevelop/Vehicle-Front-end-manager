@@ -11,7 +11,7 @@
               All
             </a>
           </li>
-          @for(category of categories; track category) {
+          @for(category of categories(); track category) {
           <li>
             <a class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               routerLink="/" [queryParams]="{ category: category}">{{category | titlecase}}</a>
@@ -23,10 +23,14 @@
   </div>
 
   @if(vehicles().length > 0){
-  <div class="grid grid-cols-4 gap-8 w-full mt-5 p-5">
-    @for(vehicle of vehicles(); track vehicle){
-    <vehicle-ui [vehicle]="vehicle" (drop)="onDropVehicle($event)"></vehicle-ui>
-    }
+  <div class="flex flex-col justify-center items-center">
+    <div class="grid grid-cols-4 gap-8 w-full mt-5 p-5">
+      @for(vehicle of vehicles(); track vehicle){
+      <vehicle-ui [vehicle]="vehicle" (drop)="onDropVehicle($event)"></vehicle-ui>
+      }
+    </div>
+    <paginator-ui [page]="currentPage" [size]="pageSize" [total]="totalRecords"
+      (changed)="onPageChange($event)"></paginator-ui>
   </div>
   }@else {
   <div class="flex flex-col justify-center items-center w-full mt-20">

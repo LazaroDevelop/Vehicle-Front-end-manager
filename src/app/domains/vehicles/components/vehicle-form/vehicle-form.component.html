@@ -1,93 +1,96 @@
-<form class="flex flex-col items-center justify-center gap-3 mt-10 rounded-lg border border-gray-400 p-5"
-  [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="w-75">
+<div class="flex flex-col items-center mt-5">
+  <h1 class="text-slate-600 text-lg font-semibold mt-10">Register a new vehicle</h1>
+  <form class="flex flex-col items-center justify-center gap-3 mt-10 rounded-lg border border-gray-400 p-5"
+    [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="w-75">
 
-    <label for="registration">Vehicle Registration</label>
-    <input id="registration" name="registration" type="text" formControlName="registration"
-      class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500 white:shadow-xs-light" />
-  </div>
+      <label for="registration">Vehicle Registration: </label>
+      <input id="registration" name="registration" type="text" formControlName="registration"
+        class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500 white:shadow-xs-light" />
+    </div>
 
-  <div class="w-75">
-    <label for="vin">Vehicle Identification Number</label>
-    <input id="vin" name="vin" type="text" formControlName="VIN"
-      class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500 white:shadow-xs-light" />
-  </div>
+    <div class="w-75">
+      <label for="vin">Vehicle Identification Number: </label>
+      <input id="vin" name="vin" type="text" formControlName="VIN"
+        class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500 white:shadow-xs-light" />
+    </div>
 
-  <div class="w-75">
-    <label for="vehicleType">Vehicle type</label>
-    <select id="vehicleType" title="Vehicle Type" (change)="onCategoryChange($event)"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
-      @for(category of categories(); track category) {
-      <option value="{{category}}" [selected]="$first">{{category}}</option>
-      }
-    </select>
-  </div>
+    <div class="w-75">
+      <label for="vehicleType">Vehicle type: </label>
+      <select id="vehicleType" title="Vehicle Type" (change)="onCategoryChange($event)"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+        @for(category of categories(); track category) {
+        <option value="{{category}}" [selected]="$first">{{category}}</option>
+        }
+      </select>
+    </div>
 
-  @switch (currentCategory()) {
-  @case ('ELECTRICAL') {
-  <div class="w-75">
-    <label for="battery">Battery type</label>
-    <select title="Battery Type" id="battery" formControlName="batteryType"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
-      @for(battery of batteryTypes(); track battery) {
-      <option value="{{battery}}" [selected]="$first">{{battery}}</option>
-      }
-    </select>
-  </div>
-  <div class="w-75">
-    <label for="voltage">Voltage: </label>
-    <input type="number" name="voltage" id="voltage" formControlName="batteryVoltage"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
-  </div>
-  <div class="w-75">
-    <label for="current">Current: </label>
-    <input type="number" name="current" id="current" formControlName="batteryCurrent"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
-  </div>
-  }
-  @case ('GASOLINE') {
-  <div class="w-75">
-    <label for="fuelType">Gasoline type</label>
-    <select id="fuelType" title="Fuel Type" formControlName="gasolineType"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
-      @for(gasoline of gasolines(); track gasoline) {
-      <option value="{{gasoline}}" [selected]="$first">{{gasoline}}</option>
-      }
-    </select>
-  </div>
-  }
-  @case ('DIESEL') {
-  <div class="w-75">
-    <label for="bombType">Injection pump type</label>
-    <select id="bombType" title="Bomb Type" formControlName="bombType"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
-      @for(bomb of pumpTypes(); track bomb) {
-      <option value="{{bomb}}" [selected]="$first">{{bomb}}</option>
-      }
-    </select>
-  </div>
-  }}
+    @switch (currentCategory()) {
+    @case ('ELECTRICAL') {
+    <div class="w-75">
+      <label for="battery">Battery type: </label>
+      <select title="Battery Type" id="battery" formControlName="batteryType"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+        @for(battery of batteryTypes(); track battery) {
+        <option value="{{battery}}" [selected]="$first">{{battery}}</option>
+        }
+      </select>
+    </div>
+    <div class="w-75">
+      <label for="voltage">Voltage: </label>
+      <input type="number" name="voltage" id="voltage" formControlName="batteryVoltage"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+    </div>
+    <div class="w-75">
+      <label for="current">Current: </label>
+      <input type="number" name="current" id="current" formControlName="batteryCurrent"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+    </div>
+    }
+    @case ('GASOLINE') {
+    <div class="w-75">
+      <label for="fuelType">Gasoline type: </label>
+      <select ariaMultiSelectable id="fuelType" title="Fuel Type" formControlName="gasolineType"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+        @for(gasoline of gasolines(); track gasoline) {
+        <option value="{{gasoline}}" [selected]="$first">{{gasoline}}</option>
+        }
+      </select>
+    </div>
+    }
+    @case ('DIESEL') {
+    <div class="w-75">
+      <label for="bombType">Injection pump type: </label>
+      <select id="bombType" title="Bomb Type" formControlName="bombType"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+        @for(bomb of pumpTypes(); track bomb) {
+        <option value="{{bomb}}" [selected]="$first">{{bomb}}</option>
+        }
+      </select>
+    </div>
+    }}
 
-  <div class="w-75">
-    <button type="submit"
-      class="w-full focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Register</button>
-  </div>
+    <div class="w-75">
+      <button type="submit"
+        class="w-full focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Register</button>
+    </div>
 
-  @if(successMessage().trim() !== ''){
-  <div class="text-green-700 bg-green-300 rounded-lg w-full p-2">
-    {{successMessage()}}
-  </div>
-  }
+    @if(successMessage().trim() !== ''){
+    <div class="text-green-700 bg-green-300 rounded-lg w-full p-2">
+      {{successMessage()}}
+    </div>
+    }
 
-  @if(errorMessage().trim() !== ''){
-  <div class="text-red-700 bg-red-300 rounded-lg w-full p-2">
-    {{errorMessage()}}
-  </div>
-  }
+    @if(errorMessage().trim() !== ''){
+    <div class="text-red-700 bg-red-300 rounded-lg w-full p-2">
+      {{errorMessage()}}
+    </div>
+    }
 
-  @if(loading()){
-  <div class="text-gray-600">
-    Storing...
-  </div>
-  }
-</form>
+    @if(loading()){
+    <div class="text-gray-600">
+      Storing...
+    </div>
+    }
+  </form>
+</div>
