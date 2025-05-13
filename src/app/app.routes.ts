@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { ListComponent } from './domains/vehicles/pages/list/list.component';
 import LayoutComponent from './domains/shared/components/layout/layout.component';
+import { NotFoundComponent } from './domains/info/pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -24,5 +25,9 @@ export const routes: Routes = [
           import('./domains/vehicles/pages/register/register.component'),
       },
     ],
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
