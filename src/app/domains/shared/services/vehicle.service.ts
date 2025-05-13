@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { VehicleRequest } from '../models/vehicle.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +26,13 @@ export class VehicleService {
 
   getVehicleById(id: string) {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  storeVehicle(vehicle: VehicleRequest) {
+    return this.http.post<any>(`${this.apiUrl}/create`, vehicle);
+  }
+
+  dropVehicle(id: number) {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 }
