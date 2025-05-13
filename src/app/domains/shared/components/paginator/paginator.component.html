@@ -1,0 +1,39 @@
+<div class="flex justify-center py-2 gap-3">
+  <div class="mb-3">
+    <select
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500"
+      title="pages" id="pages" (change)="onSelection($event.target)">
+      <option *ngFor="let opt of pageSizeOptions" [value]="opt">
+        {{ opt }}
+      </option>
+    </select>
+  </div>
+
+  <nav aria-label="Page navigation">
+    <ul class="flex justify-center">
+      <li class="bg-blue-200 px-2 py-2 rounded-l-lg text-black flex items-center justify-center"
+        [class.cursor-pointer]="!(currentPage === 0)"> <a class="page-link" (click)="onPageChange(currentPage - 1)"
+          aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <!-- Previous -->
+      @for (page of pages; track $index) {
+      <li
+        class="flex items-center justify-center px-3 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 white:bg-gray-800 white:border-gray-700 white:text-gray-400 white:hover:bg-gray-700 white:hover:text-white"
+        [class.active]="
+        page===currentPage">
+        <a (click)="onPageChange(page)">{{ page + 1 }}</a>
+      </li>
+      }
+
+      <!-- Next button -->
+      <li class="bg-blue-200 px-2 py-2 rounded-r-lg text-black flex items-center justify-center"
+        [class.cursor-pointer]="!(currentPage >= totalPages - 1)">
+        <a (click)="onPageChange(currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
