@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Page, VehicleRequest } from '../models/vehicle.model';
+import { RegistrationModel } from '../models/registration.model';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,10 @@ export class VehicleService {
 
       return this.http.get<any>(url.toString());
     }
+  }
+
+  getRegistrationReport() {
+    return this.http.get<RegistrationModel>(`${this.apiUrl}/registration`);
   }
 
   getVehicleById(id: string) {
