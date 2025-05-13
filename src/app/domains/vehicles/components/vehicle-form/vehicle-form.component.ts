@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 
-import {
-  categories,
-  gasolineTypes,
-  Vehicle,
-} from '../../../shared/models/vehicle.model';
+import { categories } from '../../../shared/models/vehicle.model';
 import { VehicleType } from '../../../shared/models/vehicle-type.type';
-import { pumpTypes, batteryTypes } from '../../../shared/models/vehicle.model';
+import {
+  pumpTypes,
+  batteryTypes,
+  gasolineTypes,
+} from '../../../shared/models/vehicle.model';
 import { VehicleService } from '../../../shared/services/vehicle.service';
 
 @Component({
@@ -50,7 +50,7 @@ export class VehicleFormComponent {
     batteryType: new FormControl(this.batteryTypes()[0], [Validators.required]),
     batteryCurrent: new FormControl(0),
     batteryVoltage: new FormControl(0),
-    gasolineType: new FormControl(this.gasolines()[0]),
+    gasolineType: new FormControl([this.gasolines()[0]]),
     bombType: new FormControl(this.pumpTypes()[0]),
   });
 
@@ -105,7 +105,37 @@ export class VehicleFormComponent {
               },
             });
         }
+        break;
       }
+      case 'DIESEL': {
+        const { registration, VIN, bombType } = this.form.getRawValue();
+
+        if (registration && VIN && bombType) {
+          this.vehicleService.storeVehicle({
+            _type: '_diesel',
+            vehicleIdentificationNumber: VIN,
+            vehicleRegistration: registration,
+            pumpType: bombType,
+            vehicleType: 'DIESEL',
+          });
+        }
+        break;
+      }
+      case 'GASOLINE':
+        {
+          const { registration, VIN, gasolineType } = this.form.getRawValue();
+
+          if (registration && VIN && gasolineType) {
+            this.vehicleService.storeVehicle({
+              _type: '_gasoline',
+              vehicleRegistration: registration,
+              vehicleIdentificationNumber: VIN,
+              gasolineType: gasolineType,
+              vehicleType: 'GASOLINE',
+            });
+          }
+        }
+        break;
     }
   }
 }
