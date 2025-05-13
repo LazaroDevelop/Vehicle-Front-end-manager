@@ -26,6 +26,11 @@ export interface VehicleRequest {
   vehicleType: VehicleType;
 }
 
+export interface Page {
+  page: number;
+  size: number;
+}
+
 export const categories: string[] = ['ELECTRICAL', 'GASOLINE', 'DIESEL'];
 export const gasolineTypes: string[] = ['B83', 'B90', 'B98', 'B100'];
 export const pumpTypes: string[] = ['LINEAL', 'ROTATION'];
