@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -10,9 +10,11 @@ import {
 import {
   categories,
   gasolineTypes,
+  Vehicle,
 } from '../../../shared/models/vehicle.model';
 import { VehicleType } from '../../../shared/models/vehicle-type.type';
 import { pumpTypes, batteryTypes } from '../../../shared/models/vehicle.model';
+import { VehicleService } from '../../../shared/services/vehicle.service';
 
 @Component({
   selector: 'form-ui',
@@ -27,6 +29,12 @@ export class VehicleFormComponent {
   pumpTypes = signal<string[]>(pumpTypes);
   batteryTypes = signal<string[]>(batteryTypes);
   currentCategory = signal<VehicleType>('ELECTRICAL');
+
+  loading = signal(false);
+  successMessage = signal('');
+  errorMessage = signal('');
+
+  private vehicleService = inject(VehicleService);
 
   form = new FormGroup({
     registration: new FormControl('', [
@@ -53,12 +61,51 @@ export class VehicleFormComponent {
   }
 
   onSubmit() {
-    console.log(this.form.getRawValue());
+    this.loading.set(true);
+    switch (this.currentCategory()) {
+      case 'ELECTRICAL': {
+        const {
+          registration,
+          VIN,
+          batteryType,
+          batteryCurrent,
+          batteryVoltage,
+        } = this.form.getRawValue();
 
-    if (this.form.valid) {
-      const value = this.form.getRawValue();
-
-      console.log(value);
+        if (
+          registration &&
+          VIN &&
+          batteryType &&
+          batteryCurrent &&
+          batteryVoltage
+        ) {
+          this.vehicleService
+            .storeVehicle({
+              _type: '_electrical',
+              vehicleIdentificationNumber: VIN,
+              vehicleRegistration: registration,
+              batteryType: batteryType,
+              vehicleType: 'ELECTRICAL',
+              voltage: batteryVoltage,
+              current: batteryCurrent,
+            })
+            .subscribe({
+              next: (data) => {
+                if (data) {
+                  this.successMessage.set('Vehicle succesfully saved');
+                }
+              },
+              error: (error) => {
+                this.errorMessage.set(
+                  `There was an unexpected error => ${error.error.message}`
+                );
+              },
+              complete: () => {
+                this.loading.set(false);
+              },
+            });
+        }
+      }
     }
   }
 }

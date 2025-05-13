@@ -72,4 +72,22 @@
     <button type="submit"
       class="w-full focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Register</button>
   </div>
+
+  @if(successMessage().trim() !== ''){
+  <div class="text-green-700 bg-green-300 rounded-lg w-full p-2">
+    {{successMessage()}}
+  </div>
+  }
+
+  @if(errorMessage().trim() !== ''){
+  <div class="text-red-700 bg-red-300 rounded-lg w-full p-2">
+    {{errorMessage()}}
+  </div>
+  }
+
+  @if(loading()){
+  <div class="text-gray-600">
+    Storing...
+  </div>
+  }
 </form>
