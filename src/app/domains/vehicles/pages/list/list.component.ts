@@ -1,5 +1,5 @@
 import { Component, inject, Input, signal, SimpleChanges } from '@angular/core';
-import { Vehicle } from '../../../shared/models/vehicle.model';
+import { Vehicle, categories } from '../../../shared/models/vehicle.model';
 import { CommonModule } from '@angular/common';
 import { VehicleComponent } from '../../components/vehicle/vehicle.component';
 import { VehicleService } from '../../../shared/services/vehicle.service';
@@ -16,7 +16,7 @@ export class ListComponent {
   @Input() category!: string;
   vehicles = signal<Vehicle[]>([]);
   private vehicleSerivce = inject(VehicleService);
-  categories: string[] = ['ELECTRICAL', 'GASOLINE', 'DIESEL'];
+  readonly categories = categories;
 
   ngOnInit() {
     this.getVehicles();
