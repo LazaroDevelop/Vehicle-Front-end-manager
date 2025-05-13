@@ -1,0 +1,127 @@
+<div class="relative overflow-x-auto mx-10 my-10 shadow-md sm:rounded-lg">
+  <div class="flex flex-col justify-center items-center">
+    <h1 class="text-lg font-semibold m-5">Registration report</h1>
+    <div class="inline-flex rounded-md shadow-xs m-5" role="group">
+      <button type="button" (click)="setCategory('ELECTRICAL')"
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-500 focus:text-purple-700 white:bg-gray-800 white:border-gray-700 white:text-white white:hover:text-white white:hover:bg-gray-700 white:focus:ring-blue-500 white:focus:text-white">
+        Electrical
+      </button>
+      <button type="button" (click)="setCategory('DIESEL')"
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-500 focus:text-purple-700 white:bg-gray-800 white:border-gray-700 white:text-white white:hover:text-white white:hover:bg-gray-700 white:focus:ring-blue-500 white:focus:text-white">
+        Diesel
+      </button>
+      <button type="button" (click)="setCategory('GASOLINE')"
+        class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-500 focus:text-purple-700 white:bg-gray-800 white:border-gray-700 white:text-white white:hover:text-white white:hover:bg-gray-700 white:focus:ring-blue-500 white:focus:text-white">
+        Gasoline
+      </button>
+    </div>
+  </div>
+
+  <!-- Electrical -->
+  @switch (currentCategory()) {
+  @case ('ELECTRICAL') {
+  <table class="w-full text-sm text-left rtl:text-right text-gray-900 white:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-purple-50 white:bg-gray-700 white:text-gray-400">
+      <tr>
+        @for(el of elabels(); track el){
+        <th scope="col" class="px-6 py-3">
+          {{el}}
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for(elc of electrical(); track elc;){
+      <tr [class.bg-white]="$odd" [class.text-black]="$even"
+        class="bg-purple-300 border-b white:bg-gray-800 white:border-gray-700 border-gray-200">
+        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+          {{elc.VIN}}
+        </th>
+        <td class="px-6 py-4">
+          {{elc.batteryType}}
+        </td>
+        <td class="px-6 py-4">
+          {{elc.voltage}} V
+        </td>
+        <td class="px-6 py-4">
+          {{elc.current}} W
+        </td>
+        <td class="px-6 py-4">
+          <input type="checkbox" name="reconverted" id="reconverted" [checked]="elc.reconverted">
+        </td>
+        @if(elc.reconverted){
+        <td class="px-6 py-4">
+          {{elc.conversion_info.registration}}
+        </td>
+        <td class="px-6 py-4">
+          {{elc.conversion_info.fuelType}}
+        </td>
+        }@else {
+        <td class="px-6 py-4">
+          No reconversion data
+        </td>
+        <td class="px-6 py-4">
+          No reconversion data
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  }
+  @case ('DIESEL') {
+  <table class="w-full text-sm text-left rtl:text-right text-gray-900 white:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-purple-50 white:bg-gray-700 white:text-gray-400">
+      <tr>
+        @for(dl of dlabels(); track dl){
+        <th scope="col" class="px-6 py-3">
+          {{dl}}
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for(dsl of diesel(); track dsl;){
+      <tr [class.bg-white]="$odd" [class.text-black]="$even"
+        class="bg-purple-300 border-b white:bg-gray-800 white:border-gray-700 border-gray-200">
+        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+          {{dsl.registration}}
+        </th>
+        <td class="px-6 py-4">
+          {{dsl.pumpType}}
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+  @case ('GASOLINE') {
+  <table class="w-full text-sm text-left rtl:text-right text-gray-900 white:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-purple-50 white:bg-gray-700 white:text-gray-400">
+      <tr>
+        @for(gl of glabels(); track gl){
+        <th scope="col" class="px-6 py-3">
+          {{gl}}
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for(gsl of gasoline(); track gsl;){
+      <tr [class.bg-white]="$odd" [class.text-black]="$even"
+        class="bg-purple-300 border-b white:bg-gray-800 white:border-gray-700 border-gray-200">
+        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+          {{gsl.registration}}
+        </th>
+        <td class="px-6 py-4">
+          {{gsl.fuelType.join(", ")}}
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+
+  }
+</div>
