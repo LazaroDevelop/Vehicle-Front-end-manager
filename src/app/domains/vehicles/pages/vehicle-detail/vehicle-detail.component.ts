@@ -74,10 +74,12 @@ export default class VehicleDetailComponent {
           this.vehicle.set(data);
         },
         error: (error) => {
-          this.errorMessage.set(
-            `Error fetching the specific vehicle ${error.error.message}`
-          );
-          this.setTemporaryMessage(this.errorMessage, 2000);
+          this.errorMessage.set(`Error: ${error.error.message}`);
+          this.setTemporaryMessage(this.errorMessage, 3000);
+          this.loading.set(false);
+        },
+        complete: () => {
+          this.loading.set(false);
         },
       });
     }
@@ -111,14 +113,13 @@ export default class VehicleDetailComponent {
           next: (data: ElectricalModel) => {
             if (data) {
               this.successMessage.set('Vehicle successfully converted');
-              this.setTemporaryMessage(this.successMessage, 2000);
+              this.setTemporaryMessage(this.successMessage, 3000);
             }
           },
           error: (error) => {
-            this.errorMessage.set(
-              `There was an error during the convertions ${error.error.message}`
-            );
-            this.setTemporaryMessage(this.errorMessage, 2000);
+            this.errorMessage.set(`Error: ${error.error.message}`);
+            this.setTemporaryMessage(this.errorMessage, 3000);
+            this.loading.set(false);
           },
           complete: () => {
             this.loading.set(true);
@@ -160,14 +161,13 @@ export default class VehicleDetailComponent {
               next: (data) => {
                 if (data) {
                   this.successMessage.set('Vehicle succesfully updated');
-                  this.setTemporaryMessage(this.successMessage, 2000);
+                  this.setTemporaryMessage(this.successMessage, 3000);
                 }
               },
               error: (error) => {
-                this.errorMessage.set(
-                  `There was an unexpected error => ${error.error.message}`
-                );
-                this.setTemporaryMessage(this.errorMessage, 2000);
+                this.errorMessage.set(`Error: ${error.error.message}`);
+                this.setTemporaryMessage(this.errorMessage, 3000);
+                this.loading.set(false);
               },
               complete: () => {
                 this.loading.set(false);
@@ -194,14 +194,13 @@ export default class VehicleDetailComponent {
               next: (data) => {
                 if (data) {
                   this.successMessage.set('Vehicle succesfully updated');
-                  this.setTemporaryMessage(this.successMessage, 2000);
+                  this.setTemporaryMessage(this.successMessage, 3000);
                 }
               },
               error: (error) => {
-                this.errorMessage.set(
-                  `There was an unexpected error => ${error.error.message}`
-                );
-                this.setTemporaryMessage(this.errorMessage, 2000);
+                this.errorMessage.set(`Error: ${error.error.message}`);
+                this.setTemporaryMessage(this.errorMessage, 3000);
+                this.loading.set(false);
               },
               complete: () => {
                 this.loading.set(false);
@@ -230,14 +229,13 @@ export default class VehicleDetailComponent {
                 next: (data) => {
                   if (data) {
                     this.successMessage.set('Vehicle succesfully updated');
-                    this.setTemporaryMessage(this.successMessage, 2000);
+                    this.setTemporaryMessage(this.successMessage, 3000);
                   }
                 },
                 error: (error) => {
-                  this.errorMessage.set(
-                    `There was an unexpected error => ${error.error.message}`
-                  );
-                  this.setTemporaryMessage(this.errorMessage, 2000);
+                  this.errorMessage.set(`Error: ${error.error.message}`);
+                  this.setTemporaryMessage(this.errorMessage, 3000);
+                  this.loading.set(false);
                 },
                 complete: () => {
                   this.loading.set(false);
