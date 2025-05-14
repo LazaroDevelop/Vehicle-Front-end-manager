@@ -32,6 +32,6 @@ export interface Page {
 }
 
 export const categories: string[] = ['ELECTRICAL', 'GASOLINE', 'DIESEL'];
-export const gasolineTypes: string[] = ['B83', 'B90', 'B98', 'B100'];
+export const gasolineTypes: string[] = ['B83', 'B90', 'B94', 'B100'];
 export const pumpTypes: string[] = ['LINEAL', 'ROTATION'];
 export const batteryTypes: string[] = ['LITHIUM', 'GEL'];
