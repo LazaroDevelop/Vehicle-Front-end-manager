@@ -37,7 +37,7 @@ export default class VehicleDetailComponent {
   batteryTypes = computed(() => batteryTypes);
   pumpTypes = computed(() => pumpTypes);
   private vehicleService = inject(VehicleService);
-  private timeout: NodeJS.Timeout[] = [];
+  private timeout: any[] = [];
 
   loading = signal(false);
   successMessage = signal('');

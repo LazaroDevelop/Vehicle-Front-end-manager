@@ -31,7 +31,7 @@ export class VehicleFormComponent {
   batteryTypes = signal<string[]>(batteryTypes);
   currentCategory = signal<VehicleType>('ELECTRICAL');
 
-  timeout: NodeJS.Timeout[] = [];
+  timeout: any[] = [];
 
   loading = signal(false);
   successMessage = signal('');
