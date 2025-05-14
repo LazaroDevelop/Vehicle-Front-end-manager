@@ -1,0 +1,253 @@
+<div class="w-full px-30 py-10 items-center justify-center flex flex-col">
+
+  <h1 class="text-lg font-semibold">Vehicle details</h1>
+  <form [formGroup]="$form" class="w-100 mt-5 border border-gray-300 py-10 px-10 rounded-lg shadow-gray-200 shadow-sm"
+    (ngSubmit)="updateVehicle()">
+
+    <label class="flex gap-3 justify-end">
+      <label for="editing_mode" class="text-gray-600 text-sm">Edit mode</label>
+      <input id="editing_mode" type="checkbox" [checked]="editingMode()" class="sr-only peer"
+        (change)="onTriggerEditMode()">
+      <div
+        class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
+      </div>
+    </label>
+
+    <div class="flex flex-col justify-between mt-5">
+      <div class="flex flex-col justify-between w-full">
+        <span class="text-lg font-medium text-gray-700">Vehicle Registration:</span>
+        <p class="text-lg font-medium text-gray-700 my-3">
+          @if(!editingMode()){
+          {{ vehicle()?.vehicleRegistration }}
+          }@else {
+          <input type="text" formControlName="$registration" class="border border-blue-200 rounded-lg w-full"
+            [value]="vehicle()?.vehicleRegistration">
+          }
+        </p>
+      </div>
+
+      <div class="flex flex-col justify-between w-full">
+        <span class="text-lg font-medium text-gray-700">Vehicle Identification Number:</span>
+        <p class="text-lg font-medium text-gray-700 my-3">
+
+          @if(!editingMode()){
+          {{ vehicle()?.vehicleIdentificationNumber }}
+          }@else {
+          <input type="text" formControlName="$vin" class="border border-blue-200 rounded-lg w-full"
+            [value]="vehicle()?.vehicleIdentificationNumber">
+          }
+        </p>
+      </div>
+    </div>
+
+    <p class="text-lg font-medium my-3 text-gray-700">Type <span class="rounded-md text-white px-2"
+        [class.bg-blue-500]="vehicle()?.vehicleType === 'ELECTRICAL'"
+        [class.bg-red-500]="vehicle()?.vehicleType === 'GASOLINE'"
+        [class.bg-yellow-500]="vehicle()?.vehicleType === 'DIESEL'"
+        [class.w-25]="vehicle()?.vehicleType === 'ELECTRICAL'" [class.w-22]="vehicle()?.vehicleType === 'GASOLINE'"
+        [class.w-16]="vehicle()?.vehicleType === 'DIESEL'">
+        {{vehicle()?.vehicleType}}</span>
+    </p>
+
+    @switch (vehicle()?.vehicleType) { @case('ELECTRICAL'){
+
+    <p class="flex text-lg font-medium gap-3 items-center my-3 text-gray-700">
+      Battery Type
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M21 10.5h.375c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125H21M4.5 10.5h6.75V15H4.5v-4.5ZM3.75 18h15A2.25 2.25 0 0 0 21 15.75v-6a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 1.5 9.75v6A2.25 2.25 0 0 0 3.75 18Z" />
+      </svg> @if(!editingMode()){
+      {{ vehicle()?.batteryType }}
+      }@else{
+    <div class="w-25 my-3">
+      <select title="Battery Type" id="battery" formControlName="$batteryTypes"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+        @for(battery of batteryTypes(); track battery) {
+        <option value="{{battery}}" [selected]="$first">{{battery}}</option>
+        }
+      </select>
+    </div>
+    }
+    </p>
+    <p class="text-lg font-medium text-gray-700 flex gap-3 items-center my-3">
+      Current
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+      </svg> @if(!editingMode()){
+      {{ vehicle()?.current }}
+      }@else{
+      <input type="number" formControlName="$current" class="border border-blue-200 rounded-lg"
+        [value]="vehicle()?.current"> }W
+    </p>
+    <p class="text-lg font-medium text-gray-700 flex gap-3 items-center my-3">
+      Voltage
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+      </svg>
+      @if(!editingMode()){
+      {{ vehicle()?.voltage }}
+      }@else{
+      <input type="number" formControlName="$voltage" class="border border-blue-200 rounded-lg"
+        [value]="vehicle()?.voltage">
+      }
+      V
+    </p>
+
+    <div class="flex flex-col w-full my-3">
+      <label class="inline-flex items-center cursor-pointer">
+        @if(!vehicle()?.reconverted){
+        <input type="checkbox" [checked]="convertable()" [disabled]="vehicle()?.reconverted" class="sr-only peer"
+          (change)="onTriggerConvertable()">
+        <div
+          class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
+        </div>
+        }
+        <span class="text-lg font-medium text-center mb-1" [class.text-gray-300]="vehicle()?.reconverted"
+          [class.text-gray-900]="!vehicle()?.reconverted" [class.ms-3]="!vehicle()?.reconverted">{{
+          !vehicle()?.reconverted ? "Convertable"
+          : "Reconverted"}}</span>
+      </label>
+
+      @if(convertable()){
+
+      <form class="w-full flex flex-col py-5 px-3 gap-3" [formGroup]="$convertForm"
+        (ngSubmit)="convertToGasoline(vehicle()?.id)">
+        <div class="flex flex-col gap-1">
+          <label class="block text-sm font-medium text-gray-700">Gasoline Types</label>
+          <multi-select-ui formControlName="$fuelTypes" [options]="gasolines()"></multi-select-ui>
+        </div>
+
+        <div class="">
+          <button type="submit" class="text-white bg-red-500 p-2 rounded-lg w-full">Convert to
+            Gasoline</button>
+        </div>
+      </form>
+      }
+
+    </div>
+
+    } @case ('GASOLINE') {
+    <p class="text-lg font-medium text-gray-700 flex gap-3 items-center my-3">
+      Gasoline Type
+      <svg fill="#000000" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496 496" xml:space="preserve">
+        <g>
+          <g>
+            <g>
+              <path d="M240,272c0-13.232-10.768-24-24-24h-80c-13.232,0-24,10.768-24,24v80c0,13.232,10.768,24,24,24h80
+                    c13.232,0,24-10.768,24-24V272z M224,352c0,4.416-3.584,8-8,8h-80c-4.416,0-8-3.584-8-8v-80c0-4.416,3.584-8,8-8h80
+                    c4.416,0,8,3.584,8,8V352z" />
+              <rect x="222.184" y="407.945" transform="matrix(-0.669 -0.7433 0.7433 -0.669 151.4772 899.351)"
+                width="107.635" height="16" />
+
+              <rect x="67.977" y="362.182" transform="matrix(-0.7432 -0.669 0.669 -0.7432 -145.8684 776.008)"
+                width="15.999" height="107.627" />
+
+              <rect x="225.453" y="208.024" transform="matrix(-0.6585 0.7526 -0.7526 -0.6585 607.0101 156.6001)"
+                width="85.041" height="16" />
+              <rect x="22.188" y="199.997" transform="matrix(0.669 0.7433 -0.7433 0.669 179.7589 12.3577)"
+                width="107.635" height="16" />
+              <path d="M472,0H371.12c-14.736,0-28.224,8.056-35.224,21.032l-44.648,82.92l-15.928-7.24l-6.624,14.56l8.744,3.976l-8.84,17.68
+                    l-7.96-3.616L211.312,80H83.752H72H40C17.944,80,0,97.944,0,120v336c0,22.056,17.944,40,40,40h272c22.056,0,40-17.944,40-40
+                    V170.848l-13.424-6.104l8.84-17.68l9.272,4.216l6.624-14.56l-15.928-7.24l29.84-71.632C379.72,51.864,385.512,48,392,48h80V0z
+                     M292,121.88l40.832,18.56l-8.84,17.68l-40.832-18.56L292,121.88z M204.688,96l32,32H123.752L97.088,96H204.688z M336,456
+                    c0,13.232-10.768,24-24,24H40c-13.232,0-24-10.768-24-24V120c0-13.232,10.768-24,24-24h32h4.248l40,48h138.016L336,181.152V456z
+                     M392,32c-12.96,0-24.552,7.728-29.536,19.688l-29.648,71.16l-26.968-12.256l44.136-81.968C354.176,20.832,362.272,16,371.12,16
+                    H392V32z M424,32h-16V16h16V32z M456,32h-16V16h16V32z" />
+              <rect x="248" y="448" width="16" height="16" />
+              <rect x="168" y="448" width="64" height="16" />
+              <path d="M489.6,116.8L464,82.664L438.392,116.8c-4.12,5.512-6.392,12.328-6.392,19.2c0,17.648,14.352,32,32,32s32-14.352,32-32
+                    C496,129.128,493.728,122.312,489.6,116.8z M464,152c-8.824,0-16-7.176-16-16c0-3.44,1.136-6.848,3.192-9.6L464,109.336
+                    l12.8,17.064c2.064,2.752,3.2,6.16,3.2,9.6C480,144.824,472.824,152,464,152z" />
+              <path d="M432,186.664L406.392,220.8c-4.12,5.512-6.392,12.328-6.392,19.2c0,17.648,14.352,32,32,32s32-14.352,32-32
+                    c0-6.872-2.272-13.688-6.4-19.2L432,186.664z M432,256c-8.824,0-16-7.176-16-16c0-3.44,1.136-6.848,3.192-9.6L432,213.336
+                    l12.8,17.064c2.064,2.752,3.2,6.16,3.2,9.6C448,248.824,440.824,256,432,256z" />
+            </g>
+          </g>
+        </g>
+      </svg> @if(!editingMode()){
+      {{ vehicle()?.gasolineType?.join(", ") }}
+      }@else {
+    <div class="w-75">
+      <div class="flex flex-col gap-1">
+        <multi-select-ui formControlName="$gasolineTypes" [options]="gasolines()"></multi-select-ui>
+      </div>
+    </div>}
+    </p>
+    } @case ('DIESEL') {
+    <p class="text-lg-font-medium text-gray-700 flex gap-3 items-center my-3">
+      Injection bomb type -
+      <svg fill="#000000" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 383.114 383.114" xml:space="preserve">
+        <path d="M144.114,316.654c4.864,1.025,7.976,5.8,6.95,10.663c-0.894,4.237-4.633,7.146-8.798,7.146
+                    c-0.615,0-1.239-0.063-1.865-0.195c-52.492-11.066-93.56-52.135-104.624-104.627c-1.025-4.864,2.087-9.638,6.951-10.663
+                    c4.86-1.024,9.637,2.087,10.663,6.95C62.984,271.446,98.596,307.058,144.114,316.654z M177.525,201.533c0-4.971-4.029-9-9-9h-0.031
+                    c-4.971,0-8.984,4.029-8.984,9s4.044,9,9.015,9S177.525,206.503,177.525,201.533z M383.114,22.071v109.6c0,4.971-4.029,9-9,9
+                    s-9-4.029-9-9v-10.949H225.56l-30.513,52.852c5.318,5.05,9.203,11.599,10.969,18.96h43.302v-42.865c0-4.971,4.029-9,9-9s9,4.029,9,9
+                    v51.598c0.002,0.089,0.004,0.178,0.004,0.268c0,29.557-13.044,56.124-33.679,74.247c-0.21,0.222-0.434,0.436-0.67,0.64
+                    c-8.145,7.018-17.32,12.601-27.13,16.603c-11.401,4.669-23.861,7.267-36.911,7.321c-0.02,0.003-0.038,0-0.056,0
+                    c-0.024,0-0.044,0-0.067,0.001c-0.025,0.001-0.048,0.001-0.071,0c-0.025-0.001-0.051-0.001-0.074,0c-0.025,0-0.052,0-0.076,0
+                    c-0.028,0-0.079-0.007-0.078,0c0,0,0,0,0,0c-17.77,0-34.465-4.718-48.89-12.964c-0.172-0.086-0.344-0.178-0.513-0.275
+                    c-0.179-0.103-0.353-0.212-0.522-0.325c-29.227-17.183-48.887-48.963-48.887-85.247s19.661-68.064,48.888-85.247
+                    c0.169-0.113,0.343-0.223,0.522-0.325c0.169-0.098,0.34-0.189,0.513-0.275c14.427-8.248,31.117-12.964,48.893-12.964
+                    c0.719,0,1.419,0.084,2.089,0.244c0.671-0.16,1.37-0.244,2.089-0.244h47.517c0.109-0.003,0.22-0.003,0.329,0h144.578V51.022H172.69
+                    c-0.717,0-1.415-0.084-2.083-0.242c-0.668,0.158-1.366,0.242-2.083,0.242C85.519,51.022,18,118.541,18,201.533
+                    s67.519,150.511,150.512,150.511c57.937,0,111.379-33.87,136.151-86.288c0.416-0.878,0.954-1.658,1.586-2.329
+                    c8.479-18.72,13.235-39.469,13.32-61.301c-0.002-0.075-0.003-0.149-0.003-0.225v-52.233c0-4.971,4.029-9,9-9s9,4.029,9,9v51.598
+                    c0.002,0.089,0.004,0.178,0.004,0.268c0,92.917-75.594,168.511-168.512,168.511c-0.182,0-0.363,0-0.546,0
+                    C75.594,370.043,0,294.45,0,201.533S75.594,33.022,168.512,33.022c0.719,0,1.419,0.084,2.089,0.244
+                    c0.671-0.16,1.37-0.244,2.089-0.244h192.424V22.071c0-4.971,4.029-9,9-9S383.114,17.1,383.114,22.071z M88.195,192.533h42.81
+                    c1.767-7.362,5.651-13.91,10.971-18.961l-21.397-37.063C102.922,149.559,90.745,169.614,88.195,192.533z M120.577,266.557
+                    l21.398-37.063c-5.319-5.051-9.204-11.599-10.971-18.961h-42.81C90.745,233.455,102.92,253.508,120.577,266.557z M200.871,275.581
+                    l-21.4-37.068c-3.475,1.032-7.153,1.586-10.958,1.586c-3.806,0-7.483-0.554-10.959-1.586l-21.401,37.069
+                    c9.913,4.348,20.86,6.763,32.36,6.763c0.02,0,0.041,0,0.063,0h0.002c0.026,0,0.047,0,0.071,0c0.021,0,0.048,0,0.066,0
+                    c0.023,0,0.044-0.001,0.068,0c0.019-0.002,0.043-0.001,0.063-0.001c0.008,0,0.01,0,0.019,0c10.25-0.045,20.315-2.037,29.685-5.788
+                    C199.331,276.242,200.102,275.917,200.871,275.581z M168.512,222.098c11.339,0,20.564-9.226,20.564-20.565
+                    s-9.225-20.565-20.564-20.565c-11.341,0-20.567,9.226-20.567,20.565S157.171,222.098,168.512,222.098z M195.047,229.493
+                    l21.398,37.063c17.654-13.049,29.83-33.104,32.379-56.022h-42.808C204.25,217.894,200.365,224.443,195.047,229.493z
+                     M204.775,120.721H172.69c-0.717,0-1.415-0.084-2.083-0.242c-0.668,0.158-1.366,0.242-2.083,0.242
+                    c-11.505,0-22.456,2.415-32.372,6.765l21.4,37.067c3.476-1.032,7.153-1.586,10.959-1.586c3.805,0,7.483,0.554,10.958,1.586
+                    L204.775,120.721z" />
+      </svg> @if(!editingMode()){
+      {{ vehicle()?.pumpType }}
+      }@else{
+    <div class="w-75">
+      <select id="pumpTypes" title="Bomb Type" formControlName="$pumpTypes"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 white:bg-gray-700 white:border-gray-600 white:placeholder-gray-400 white:text-white white:focus:ring-blue-500 white:focus:border-blue-500">
+        @for(bomb of pumpTypes(); track bomb) {
+        <option [value]="bomb" [selected]="$first">{{bomb}}</option>
+        }
+      </select>
+    </div>
+    }
+    </p> }}
+
+    @if(editingMode()){
+    <button
+      class="w-full mt-3 font-medium text-lg text-white bg-purple-400 py-2 px-3 rounded-lg hover:bg-purple-600 cursor-pointer"
+      type="button" (click)="updateVehicle()">Update
+      vehicle</button>
+    }
+    @if(successMessage().trim() !== ''){
+    <div class="text-green-700 bg-green-300 rounded-lg w-full p-2 font-medium mt-5">
+      {{successMessage()}}
+    </div>
+    }
+
+    @if(errorMessage().trim() !== ''){
+    <div class="text-red-700 bg-red-300 rounded-lg w-full p-2 font-medium mt-5">
+      {{errorMessage()}}
+    </div>
+    }
+
+    @if(loading()){
+    <div class="w-full text-gray-600 text-center mt-5 p-2 font-medium text-lg bg-gray-300 rounded-lg">
+      Updating vehicle...
+    </div> }
+  </form>
+</div>
