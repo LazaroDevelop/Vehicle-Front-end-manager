@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,10 +15,11 @@ import {
   gasolineTypes,
 } from '../../../shared/models/vehicle.model';
 import { VehicleService } from '../../../shared/services/vehicle.service';
+import { MultiSelectComponent } from '../../../shared/components/multi-select/multi-select.component';
 
 @Component({
   selector: 'form-ui',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MultiSelectComponent],
   standalone: true,
   templateUrl: './vehicle-form.component.html',
   styleUrl: './vehicle-form.component.css',
@@ -29,6 +30,8 @@ export class VehicleFormComponent {
   pumpTypes = signal<string[]>(pumpTypes);
   batteryTypes = signal<string[]>(batteryTypes);
   currentCategory = signal<VehicleType>('ELECTRICAL');
+
+  timeout: NodeJS.Timeout[] = [];
 
   loading = signal(false);
   successMessage = signal('');
@@ -93,12 +96,14 @@ export class VehicleFormComponent {
               next: (data) => {
                 if (data) {
                   this.successMessage.set('Vehicle succesfully saved');
+                  this.setTemporaryMessage(this.successMessage, 2000);
                 }
               },
               error: (error) => {
                 this.errorMessage.set(
                   `There was an unexpected error => ${error.error.message}`
                 );
+                this.setTemporaryMessage(this.errorMessage, 2000);
               },
               complete: () => {
                 this.loading.set(false);
@@ -111,13 +116,31 @@ export class VehicleFormComponent {
         const { registration, VIN, bombType } = this.form.getRawValue();
 
         if (registration && VIN && bombType) {
-          this.vehicleService.storeVehicle({
-            _type: '_diesel',
-            vehicleIdentificationNumber: VIN,
-            vehicleRegistration: registration,
-            pumpType: bombType,
-            vehicleType: 'DIESEL',
-          });
+          this.vehicleService
+            .storeVehicle({
+              _type: '_diesel',
+              vehicleIdentificationNumber: VIN,
+              vehicleRegistration: registration,
+              pumpType: bombType,
+              vehicleType: 'DIESEL',
+            })
+            .subscribe({
+              next: (data) => {
+                if (data) {
+                  this.successMessage.set('Vehicle succesfully saved');
+                  this.setTemporaryMessage(this.successMessage, 2000);
+                }
+              },
+              error: (error) => {
+                this.errorMessage.set(
+                  `There was an unexpected error => ${error.error.message}`
+                );
+                this.setTemporaryMessage(this.errorMessage, 2000);
+              },
+              complete: () => {
+                this.loading.set(false);
+              },
+            });
         }
         break;
       }
@@ -126,16 +149,46 @@ export class VehicleFormComponent {
           const { registration, VIN, gasolineType } = this.form.getRawValue();
 
           if (registration && VIN && gasolineType) {
-            this.vehicleService.storeVehicle({
-              _type: '_gasoline',
-              vehicleRegistration: registration,
-              vehicleIdentificationNumber: VIN,
-              gasolineType: gasolineType,
-              vehicleType: 'GASOLINE',
-            });
+            this.vehicleService
+              .storeVehicle({
+                _type: '_gasoline',
+                vehicleRegistration: registration,
+                vehicleIdentificationNumber: VIN,
+                gasolineType: gasolineType,
+                vehicleType: 'GASOLINE',
+              })
+              .subscribe({
+                next: (data) => {
+                  if (data) {
+                    this.successMessage.set('Vehicle succesfully saved');
+                    this.setTemporaryMessage(this.successMessage, 2000);
+                  }
+                },
+                error: (error) => {
+                  this.errorMessage.set(
+                    `There was an unexpected error => ${error.error.message}`
+                  );
+                  this.setTemporaryMessage(this.errorMessage, 2000);
+                },
+                complete: () => {
+                  this.loading.set(false);
+                },
+              });
           }
         }
         break;
     }
+  }
+
+  private setTemporaryMessage(
+    messageSignal: WritableSignal<string>,
+    timeout: number
+  ) {
+    const timeoutId = setInterval(() => messageSignal.set(''), timeout);
+    this.timeout.push(timeoutId);
+  }
+
+  ngOnDestroy() {
+    this.timeout.forEach(clearTimeout);
   }
 }
