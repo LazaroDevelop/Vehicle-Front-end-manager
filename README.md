@@ -1,43 +1,29 @@
-# VehicleWeb
+# Vehicle Inventory Management System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
+A modern web application built with Angular 19 and Tailwind CSS for managing vehicle inventory. Features CRUD operations, search functionality, and responsive design.
 
-## Development server
+![Angular Version](https://img.shields.io/badge/Angular-19.0.7-%23DD0031?logo=angular)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.3-%2306B6D4?logo=tailwind-css)
 
-To start a local development server, run:
+## Key Features
+- 📦 Vehicle inventory management (Create, Read, Update, Delete)
+- 🎨 Modern UI with Tailwind CSS
+- 🚀 Optimized production builds
 
+## Technologies Used
+- **Frontend Framework**: Angular 19
+- **Styling**: Tailwind CSS 4.0
+- **Build Tool**: Angular CLI 19.0.7
+- **Routing**: Angular Router
+- **State Management**: Angular Services
+
+## Prerequisites
+- Node.js v20+
+- npm v10+
+- Angular CLI v19+
+
+## Installation
+
+1. **Clone the repository**
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+git clone [https://github.com/your-username/vehicle-inventory.git](https://github.com/LazaroDevelop/Vehicle-Front-end-manager)
