@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Page, VehicleRequest } from '../models/vehicle.model';
-import { RegistrationModel } from '../models/registration.model';
+import {
+  ElectricalModel,
+  RegistrationModel,
+} from '../models/registration.model';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +65,19 @@ export class VehicleService {
 
   storeVehicle(vehicle: VehicleRequest) {
     return this.http.post<any>(`${this.apiUrl}/create`, vehicle);
+  }
+
+  updateVehicle(id: number, vehicle: VehicleRequest) {
+    return this.http.put(`${this.apiUrl}/update/${id}`, vehicle);
+  }
+
+  convertVehicle(id: number, fuelTypes: string[]) {
+    const request = { fuelType: fuelTypes };
+
+    return this.http.post<ElectricalModel>(
+      `${this.apiUrl}/convert/${id}`,
+      request
+    );
   }
 
   dropVehicle(id: number) {
