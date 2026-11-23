@@ -1,29 +1,80 @@
-# Vehicle Inventory Management System
+# 🚗 Vehicle Inventory Manager
 
-A modern web application built with Angular 19 and Tailwind CSS for managing vehicle inventory. Features CRUD operations, search functionality, and responsive design.
+An **Angular 19 + Tailwind CSS 4** web app for managing a vehicle inventory. It is the frontend for my **[Vehicles API](https://github.com/LazaroDevelop/Vehicles)** (Spring Boot) and covers the full vehicle lifecycle: register, browse, edit, convert to electric, delete, and report.
 
-![Angular Version](https://img.shields.io/badge/Angular-19.0.7-%23DD0031?logo=angular)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.3-%2306B6D4?logo=tailwind-css)
+## ✨ What it does
+- 📋 **Paginated vehicle list** with a reusable paginator
+- 📝 **Register and edit vehicles** with a shared reactive form
+- 🔍 **Vehicle detail** page
+- ⚡ **Convert** a gasoline or diesel vehicle to **electric**
+- 🗑️ **Delete** vehicles
+- 📊 **Registration report** page
+- ⛽ Supports three vehicle types: **Electrical**, **Gasoline** and **Diesel**
+- 🎨 Responsive UI with **Tailwind CSS 4**
 
-## Key Features
-- 📦 Vehicle inventory management (Create, Read, Update, Delete)
-- 🎨 Modern UI with Tailwind CSS
-- 🚀 Optimized production builds
+## 🛠️ Tech stack
+| Layer | Technology |
+|-------|------------|
+| Framework | Angular 19 (standalone components, Angular Router) |
+| Styling | Tailwind CSS 4, PostCSS |
+| HTTP | Angular `HttpClient`, RxJS |
+| Language | TypeScript |
+| Backend | [Vehicles API](https://github.com/LazaroDevelop/Vehicles) (Spring Boot) |
 
-## Technologies Used
-- **Frontend Framework**: Angular 19
-- **Styling**: Tailwind CSS 4.0
-- **Build Tool**: Angular CLI 19.0.7
-- **Routing**: Angular Router
-- **State Management**: Angular Services
+## 🚀 Run it
 
-## Prerequisites
-- Node.js v20+
-- npm v10+
-- Angular CLI v19+
+### Prerequisites
+- Node.js 20+ and npm 10+
+- The [Vehicles API](https://github.com/LazaroDevelop/Vehicles) running on **http://localhost:8082**
 
-## Installation
+### Steps
+~~~bash
+git clone https://github.com/LazaroDevelop/Vehicle-Front-end-manager.git
+cd Vehicle-Front-end-manager
+npm install
+npm start
+~~~
+Open **http://localhost:4200**.
 
-1. **Clone the repository**
-```bash
-git clone [https://github.com/your-username/vehicle-inventory.git](https://github.com/LazaroDevelop/Vehicle-Front-end-manager)
+The API URL is configured in `src/environments/environment.ts`.
+
+## 🧭 Pages
+| Route | Page |
+|-------|------|
+| `/` | Vehicle list |
+| `/vehicle/:id` | Vehicle detail |
+| `/register` | Register a new vehicle |
+| `/report` | Registration report |
+| `**` | Not found |
+
+## 🏗️ Project structure
+The app is organized by **domain** instead of by technical type:
+~~~text
+src/app/domains
+├── info/pages/not-found
+├── shared
+│   ├── components   # header, layout, multi-select, paginator
+│   ├── models       # vehicle, registration, vehicle type
+│   └── services     # VehicleService (HTTP calls to the API)
+└── vehicles
+    ├── components   # vehicle card, vehicle form
+    └── pages        # list, register, report, vehicle detail
+~~~
+
+## 📜 Available scripts
+| Command | Description |
+|---------|-------------|
+| `npm start` | Run the dev server |
+| `npm run build` | Production build into `dist/` |
+| `npm test` | Run unit tests |
+
+## 🗺️ Roadmap
+- [ ] Add unit tests for components and services
+- [ ] Add a production environment file
+- [ ] Deploy to GitHub Pages
+
+## 👤 Author
+
+**Lazaro Noel Guerra Medina**, Java Backend Engineer
+
+> *"Make it work, make it right, make it fast."* ☕
